@@ -132,15 +132,19 @@ class CqHttpChatBridgeClient(ChatBridgeClient):
 		if cq_bot is None:
 			return
 		try:
-			try:
-				prefix, message = payload.message.split(' ', 1)
-			except:
-				pass
+			if config.is_prefix_qq:
+				try:
+					prefix, message = payload.message.split(' ', 1)
+				except:
+					pass
+				else:
+					if prefix == '!!qq':
+						self.logger.info('Triggered command, sending message {} to qq'.format(payload.formatted_str()))
+						payload.message = message
+						cq_bot.send_message(sender, payload.formatted_str())
 			else:
-				if prefix == '!!qq':
-					self.logger.info('Triggered command, sending message {} to qq'.format(payload.formatted_str()))
-					payload.message = message
-					cq_bot.send_message(sender, payload.formatted_str())
+				self.logger.info('(noPrefixQQ) Sending message {} to qq'.format(payload.formatted_str()))
+				cq_bot.send_message(sender, payload.formatted_str())
 		except:
 			self.logger.exception('Error in on_message()')
 
