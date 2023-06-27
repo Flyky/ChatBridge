@@ -127,12 +127,16 @@ class CQBot(websocket.WebSocketApp):
 
 
 class CqHttpChatBridgeClient(ChatBridgeClient):
+	def create(cls, config: CqHttpConfig):
+		cls._is_prefix_qq = config.is_prefix_qq
+		super().create(config)
+
 	def on_chat(self, sender: str, payload: ChatPayload):
 		global cq_bot
 		if cq_bot is None:
 			return
 		try:
-			if self.config.is_prefix_qq:
+			if self.is_prefix_qq:
 				try:
 					prefix, message = payload.message.split(' ', 1)
 				except:
