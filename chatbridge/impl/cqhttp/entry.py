@@ -191,6 +191,7 @@ def main():
 	global chatClient, cq_bot
 	config = utils.load_config(ConfigFile, CqHttpConfig)
 	chatClient = CqHttpChatBridgeClient.create(config)
+	chatClient.set_is_prefix_qq(config)
 	utils.start_guardian(chatClient)
 	print('Starting CQ Bot')
 	cq_bot = CQBot(config)
