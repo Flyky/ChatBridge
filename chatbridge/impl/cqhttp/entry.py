@@ -132,7 +132,7 @@ class CqHttpChatBridgeClient(ChatBridgeClient):
 		if cq_bot is None:
 			return
 		try:
-			if config.is_prefix_qq:
+			if self.config.is_prefix_qq:
 				try:
 					prefix, message = payload.message.split(' ', 1)
 				except:
